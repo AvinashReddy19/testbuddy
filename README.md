@@ -85,4 +85,4 @@ This project is licensed under the MIT License.
 
 ## Contact
 
-For any questions or feedback, feel free to reach out to us at [saiteja.palegar@gmail.com].
+For any questions or feedback, feel free to reach out to us at [avinash.challa2003@gmail.com].
