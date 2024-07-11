@@ -11,7 +11,7 @@ To run this project locally:
 
 1. **Clone the repository**:
     ```bash
-    git clone [https://github.com/AvinashReddy19/testbuddy.git]
+    git clone https://github.com/AvinashReddy19/testbuddy.git
     cd testbuddy
     ```
 
