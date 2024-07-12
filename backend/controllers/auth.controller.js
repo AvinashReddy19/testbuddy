@@ -6,7 +6,29 @@ import StudentUser from "../models/StudentSchema.js";
 
 export const adminsignup = async (req, res) => {
   const { email, password } = req.body;
+
+  // Validate email and password
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!email || !password) {
+    return res.status(400).json({ error: "Email and password are required." });
+  }
+
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({ error: "Invalid email format." });
+  }
+
+  if (password.length < 6) {
+    return res.status(400).json({ error: "Password must be at least 6 characters long." });
+  }
+
   try {
+    // Check if user already exists
+    const existingUser = await AdminUser.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ error: "User already exists." });
+    }
+
+    // Hash password and create new user
     const hashedPassword = bcryptjs.hashSync(password, 10);
     const newUser = new AdminUser({ email, password: hashedPassword });
     await newUser.save();
@@ -16,7 +38,6 @@ export const adminsignup = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
 export const adminsignin = async (req, res, next) => {
   const { email, password } = req.body;
   try {
@@ -38,6 +59,14 @@ export const adminsignin = async (req, res, next) => {
 
 export const stundetsignup = async (req, res) => {
   const { rollnumber, password } = req.body;
+  if (rollnumber.length !== 12) {
+    return res.status(400).json({ error: "Enter a valid roll number of length 12" });
+  }
+
+  // Validate password length
+  if (password.length <= 8) {
+    return res.status(400).json({ error: "Password must be more than 8 characters long" });
+  }
   try {
     const hashedPassword = bcryptjs.hashSync(password, 10);
     const newUser = new StudentUser({ rollnumber, password: hashedPassword });
